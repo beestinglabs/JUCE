@@ -622,6 +622,12 @@ public:
                                 else
                                     text = param->getText (value / getMaximumParameterValue (param), 0);
 
+                               #if JUCE_AU_APPEND_LABEL_TO_PARAMETER_TEXT
+                                String label = param->getLabel ();
+                                if (label.isNotEmpty())
+                                    text += " " + label;
+                               #endif
+                                
                                 pv->outString = text.toCFString();
 
                                 return noErr;

@@ -127,4 +127,13 @@
  #define JUCE_STANDALONE_FILTER_WINDOW_USE_KIOSK_MODE (JUCE_IOS || JUCE_ANDROID)
 #endif
 
+/** Config: JUCE_AU_APPEND_LABEL_TO_PARAMETER_TEXT
+
+    Enable this to append the parameter label to the display value of
+    parameters, so that it is displayed in the DAW.
+*/
+#ifndef JUCE_AU_APPEND_LABEL_TO_PARAMETER_TEXT
+ #define JUCE_AU_APPEND_LABEL_TO_PARAMETER_TEXT 1
+#endif
+
 #include "detail/juce_CreatePluginFilter.h"
