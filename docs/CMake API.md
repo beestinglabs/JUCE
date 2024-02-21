@@ -2,7 +2,7 @@
 
 ## System Requirements
 
-- All project types require CMake 3.15 or higher.
+- All project types require CMake 3.22 or higher.
 - Android targets are not currently supported.
 - WebView2 on Windows via JUCE_USE_WIN_WEBVIEW2 flag in juce_gui_extra is not currently supported.
 
@@ -144,11 +144,10 @@ you can configure a Clang-cl build by passing "-T ClangCL" on your configuration
 If you wish to use Clang with GNU-like command-line instead, you can pass
 `-DCMAKE_CXX_COMPILER=clang++` and `-DCMAKE_C_COMPILER=clang` on your configuration commandline.
 clang++ and clang must be on your `PATH` for this to work. Only more recent versions of CMake
-support Clang's GNU-like command-line on Windows. CMake 3.12 is not supported, CMake 3.15 has
-support, CMake 3.20 or higher is recommended.  Note that CMake doesn't seem to automatically link a
-runtime library when building in this configuration, but this can be remedied by setting the
-`MSVC_RUNTIME_LIBRARY` property. See the [official
-documentation](https://cmake.org/cmake/help/v3.15/prop_tgt/MSVC_RUNTIME_LIBRARY.html) of this
+support Clang's GNU-like command-line on Windows.   Note that CMake doesn't seem to automatically
+link a runtime library when building in this configuration, but this can be remedied by setting
+the `MSVC_RUNTIME_LIBRARY` property. See the [official
+documentation](https://cmake.org/cmake/help/v3.22/prop_tgt/MSVC_RUNTIME_LIBRARY.html) of this
 property for usage recommendations.
 
 ### A note about compile definitions
@@ -169,10 +168,10 @@ appropriate:
 
     target_compile_definitions(my_target PUBLIC NAME_OF_KEY=<value>)
 
-The `JucePlugin_PreferredChannelConfig` preprocessor definition for plugins is difficult to specify
-in a portable way due to its use of curly braces, which may be misinterpreted in Linux/Mac builds
-using the Ninja/Makefile generators. It is recommended to avoid this option altogether, and to use
-the newer buses API to specify the desired plugin inputs and outputs.
+The `JucePlugin_PreferredChannelConfigurations` preprocessor definition for plugins is difficult to
+specify in a portable way due to its use of curly braces, which may be misinterpreted in Linux/Mac
+builds using the Ninja/Makefile generators. It is recommended to avoid this option altogether, and
+to use the newer buses API to specify the desired plugin inputs and outputs.
 
 ## API Reference
 
@@ -454,6 +453,11 @@ attributes directly to these creation functions, rather than adding them later.
 - A set of space-separated paths that will be added to this target's entitlements plist for
   accessing read/write absolute paths if `APP_SANDBOX_ENABLED` is `TRUE`.
 
+`APP_SANDBOX_EXCEPTION_IOKIT`
+- A set of space-separated strings specifying IOUserClient subclasses to open or to set properties 
+  on. These will be added to this target's entitlements plist if `APP_SANDBOX_ENABLED` is `TRUE`. 
+  For more information see Apple's IOKit User Client Class Temporary Exception documentation.
+
 `PLIST_TO_MERGE`
 - A string to insert into an app/plugin's Info.plist.
 
@@ -508,6 +512,17 @@ attributes directly to these creation functions, rather than adding them later.
 `AAX_IDENTIFIER`
 - The bundle ID for the AAX plugin target. Matches the `BUNDLE_ID` by default.
 
+`LV2URI`
+- This is a string that acts as a unique identifier for an LV2 plugin. If you make any incompatible 
+  changes to your plugin (remove parameters, reorder parameters, change preset format etc.) you MUST
+  change this value. LV2 hosts will assume that any plugins with the same URI are interchangeable.
+  By default, the value of this property will be generated based on the COMPANY_WEBSITE and
+  PLUGIN_NAME. However, in some circumstances, such as the following, you'll need to override the
+  default:
+  - The plugin name contains characters such as spaces that are invalid in a URI; or
+  - The COMPANY_WEBSITE omits the leading scheme identifier (http://); or
+  - There's no website associated with the plugin, so you want to use a 'urn:' identifier instead.
+
 `VST_NUM_MIDI_INS`
 - For VST2 and VST3 plugins that accept midi, this allows you to configure the number of inputs.
 
@@ -516,7 +531,7 @@ attributes directly to these creation functions, rather than adding them later.
 
 `VST2_CATEGORY`
 - Should be one of: `kPlugCategUnknown`, `kPlugCategEffect`, `kPlugCategSynth`,
-  `kPlugCategAnalysis`, `kPlugCategMatering`, `kPlugCategSpacializer`, `kPlugCategRoomFx`,
+  `kPlugCategAnalysis`, `kPlugCategMastering`, `kPlugCategSpacializer`, `kPlugCategRoomFx`,
   `kPlugSurroundFx`, `kPlugCategRestoration`, `kPlugCategOfflineProcess`, `kPlugCategShell`,
   `kPlugCategGenerator`.
 

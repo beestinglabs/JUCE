@@ -63,7 +63,7 @@ public:
     virtual String getTypefaceName() const = 0;
 
     //==============================================================================
-    void setIndex (int newIndex)
+    void setIndex (int newIndex) override
     {
         String type (choices [newIndex]);
 
@@ -74,7 +74,7 @@ public:
             setTypefaceName (type);
     }
 
-    int getIndex() const
+    int getIndex() const override
     {
         return choices.indexOf (getTypefaceName());
     }
@@ -124,7 +124,7 @@ public:
           << CodeHelpers::floatLiteral (font.getHeight(), 2)
           << ", ";
 
-        if (font.getAvailableStyles().contains(font.getTypefaceStyle()))
+        if (font.getAvailableStyles().contains (font.getTypefaceStyle()))
             s << "juce::Font::plain).withTypefaceStyle ("
               << CodeHelpers::stringLiteral (font.getTypefaceStyle())
               << ")";

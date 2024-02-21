@@ -112,14 +112,14 @@ const OSCBundle& OSCBundle::Element::getBundle() const
 //==============================================================================
 #if JUCE_UNIT_TESTS
 
-class OSCBundleTests  : public UnitTest
+class OSCBundleTests final : public UnitTest
 {
 public:
     OSCBundleTests()
         : UnitTest ("OSCBundle class", UnitTestCategories::osc)
     {}
 
-    void runTest()
+    void runTest() override
     {
         beginTest ("Construction");
         {
@@ -217,14 +217,14 @@ private:
 static OSCBundleTests OSCBundleUnitTests;
 
 //==============================================================================
-class OSCBundleElementTests  : public UnitTest
+class OSCBundleElementTests final : public UnitTest
 {
 public:
     OSCBundleElementTests()
         : UnitTest ("OSCBundle::Element class", UnitTestCategories::osc)
     {}
 
-    void runTest()
+    void runTest() override
     {
         beginTest ("Construction from OSCMessage");
         {

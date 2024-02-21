@@ -50,14 +50,14 @@
 
 //==============================================================================
 /** Just a simple window that deletes itself when closed. */
-class BasicWindow   : public DocumentWindow
+class BasicWindow final : public DocumentWindow
 {
 public:
     BasicWindow (const String& name, Colour backgroundColour, int buttonsNeeded)
         : DocumentWindow (name, backgroundColour, buttonsNeeded)
     {}
 
-    void closeButtonPressed()
+    void closeButtonPressed() override
     {
         delete this;
     }
@@ -68,8 +68,8 @@ private:
 
 //==============================================================================
 /** This window contains a ColourSelector which can be used to change the window's colour. */
-class ColourSelectorWindow   : public DocumentWindow,
-                               private ChangeListener
+class ColourSelectorWindow final : public DocumentWindow,
+                                   private ChangeListener
 {
 public:
     ColourSelectorWindow (const String& name, Colour backgroundColour, int buttonsNeeded)
@@ -81,12 +81,12 @@ public:
         setContentOwned (&selector, false);
     }
 
-    ~ColourSelectorWindow()
+    ~ColourSelectorWindow() override
     {
         selector.removeChangeListener (this);
     }
 
-    void closeButtonPressed()
+    void closeButtonPressed() override
     {
         delete this;
     }
@@ -96,7 +96,7 @@ private:
                              | ColourSelector::showSliders
                              | ColourSelector::showColourspace };
 
-    void changeListenerCallback (ChangeBroadcaster* source)
+    void changeListenerCallback (ChangeBroadcaster* source) override
     {
         if (source == &selector)
             setBackgroundColour (selector.getCurrentColour());
@@ -106,8 +106,8 @@ private:
 };
 
 //==============================================================================
-class BouncingBallComponent : public Component,
-                              public Timer
+class BouncingBallComponent final : public Component,
+                                    public Timer
 {
 public:
     BouncingBallComponent()
@@ -159,7 +159,7 @@ private:
 };
 
 //==============================================================================
-class BouncingBallsContainer : public Component
+class BouncingBallsContainer final : public Component
 {
 public:
     BouncingBallsContainer (int numBalls)
@@ -207,7 +207,7 @@ private:
 };
 
 //==============================================================================
-class WindowsDemo   : public Component
+class WindowsDemo final : public Component
 {
 public:
     enum Windows
@@ -442,8 +442,8 @@ private:
         }), true);
     }
 
-    class AlertWindowCustomComponent : public Component,
-                                       private Slider::Listener
+    class AlertWindowCustomComponent final : public Component,
+                                             private Slider::Listener
     {
     public:
         AlertWindowCustomComponent()
