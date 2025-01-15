@@ -130,6 +130,10 @@ public:
                       int distanceFromTarget = 15, int arrowLength = 10);
 
     //==============================================================================
+    /** Beesting addition: get the bubble's content area */
+    juce::Rectangle<int> getContentArea() const { return content; }
+    
+    //==============================================================================
     /** A set of colour IDs to use to change the colour of various aspects of the bubble component.
 
         These constants can be used either via the Component::setColour(), or LookAndFeel::setColour()
