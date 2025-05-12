@@ -541,7 +541,7 @@ struct ParameterGroupItem final : public TreeViewItem
         for (auto* node : group)
         {
             if (auto* param = node->getParameter())
-                if (param->isAutomatable())
+//                if (param->isAutomatable())
                     addSubItem (new ParamControlItem (editor, *param));
 
             if (auto* inner = node->getGroup())
