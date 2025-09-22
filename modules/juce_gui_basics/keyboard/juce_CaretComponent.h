@@ -69,11 +69,24 @@ public:
     /** @internal */
     void paint (Graphics&) override;
 
+    //==============================================================================
+    /** Beesting addition: set the blink rate in ms for this CaretComponent.
+    */
+    void setBlinkMS(int ms) { blinkMS = ms; }
+
+    /** Beesting addition: set the blink rate in ms for all CaretComponents that
+        don't have a different value set.
+    */
+    static void setDefaultBlinkMS(int ms) { defaultBlinkMS = ms; }
+
 private:
     Component* owner;
 
     bool shouldBeShown() const;
     void timerCallback() override;
+
+    static int defaultBlinkMS;
+    std::optional<int> blinkMS;
 
     JUCE_DECLARE_NON_COPYABLE (CaretComponent)
 };

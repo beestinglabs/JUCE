@@ -26,6 +26,8 @@
 namespace juce
 {
 
+int CaretComponent::defaultBlinkMS = 380;
+
 CaretComponent::CaretComponent (Component* const keyFocusOwner)
     : owner (keyFocusOwner)
 {
@@ -50,7 +52,7 @@ void CaretComponent::timerCallback()
 
 void CaretComponent::setCaretPosition (const Rectangle<int>& characterArea)
 {
-    startTimer (380);
+    startTimer (blinkMS.value_or(defaultBlinkMS));
     setVisible (shouldBeShown());
     setBounds (characterArea.withWidth (2));
 }
